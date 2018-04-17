@@ -2,13 +2,26 @@
     import {mapState} from 'vuex';
     import {validationMixin} from 'vuelidate';
     import required from 'vuelidate/lib/validators/required';
-    import between from 'vuelidate/lib/validators/between';
+    import withParams from 'vuelidate/lib/withParams';
     import {VMoney} from 'v-money';
     import {IMaskDirective} from 'vue-imask';
     import {setCoinData} from "~/store/mutations";
 
     const MIN_CRR = 10;
     const MAX_CRR = 100;
+
+    const crrValidator = withParams({type: 'validCrr'}, function(value) {
+        let crr = parseInt(value, 10);
+        return MIN_CRR <= crr && MAX_CRR >= crr;
+    });
+
+    /**
+     * @typedef {Object} CoinFormData
+     * @property {string} name
+     * @property {number|string|null} supply
+     * @property {number|string|null} crr
+     * @property {number|string|null} reserve
+     */
 
     export default {
         name: 'IssueForm',
@@ -19,13 +32,13 @@
         mixins: [validationMixin],
         data() {
             return {
-                coin: {
-                    name: this.$store.state.coin.name,
-                    supply: this.$store.state.coin.supply,
-                    crr: this.$store.state.coin.crr,
-                    reserve: this.$store.state.coin.reserve,
+                /** @type CoinFormData */
+                coinForm: {
+                    name: this.$store.state.coinSettings.name,
+                    supply: this.$store.state.coinSettings.supply,
+                    crr: this.$store.state.coinSettings.crr,
+                    reserve: this.$store.state.coinSettings.reserve,
                 },
-                coinCrrMasked: '',
                 imaskNameOptions: {
                     mask: 'aaa',
                     prepare: (str) => str.toUpperCase(),
@@ -41,7 +54,7 @@
                     prefix: '',
                     suffix: '%',
                     precision: 0,
-                    //min: MIN_CRR,
+                    min: 0,
                     max: MAX_CRR,
                     allowBlank: true,
                 },
@@ -54,7 +67,7 @@
         },
         validations() {
             return {
-                coin: {
+                coinForm: {
                     name: {
                         required,
                     },
@@ -63,7 +76,7 @@
                     },
                     crr: {
                         required,
-                        between: between(MIN_CRR, MAX_CRR),
+                        between: crrValidator,
                     },
                     reserve: {
                         required,
@@ -74,16 +87,6 @@
         computed: {
             ...mapState(['coinIsMinted']),
         },
-        watch: {
-            coinCrrMasked(newValue, oldValue) {
-                let crr = parseInt(this.coinCrrMasked, 10) || 0;
-                if (crr === 0) {
-                    this.coin.crr = null;
-                } else {
-                    this.coin.crr = crr;
-                }
-            },
-        },
         methods: {
             mintCoin() {
                 if (this.coinIsMinted) {
@@ -93,25 +96,30 @@
                     this.$v.$touch();
                     return;
                 }
-                this.$store.commit('SET_COIN', this.coin);
+                this.$store.commit('MINT_COIN', this.coinForm);
             },
             resetCoin() {
                 // reset store
                 this.$store.commit('RESET_COIN');
                 // reset data
-                setCoinData(this, {});
-                this.coinCrrMasked = '';
+                setCoinData(this.coinForm, {});
                 this.$v.$reset();
+                // reset iMask instances
+                this.$refs.nameInput.maskRef.value = '';
+                this.$refs.supplyInput.maskRef.value = '';
+                this.$refs.reserveInput.maskRef.value = '';
             },
             // masks
             onAcceptName: makeAccepter('name'),
             onAcceptSupply: makeAccepter('supply'),
+            onAcceptCrrMasked(e) {
+                this.coinForm.crr = e.detail.unmaskedValue ? e.detail.value : '';
+            },
             onBlurCrr() {
-                let crr = parseInt(this.coinCrrMasked, 10) || 0;
-                if (crr === 0) {
-                    // reset if 0
-                    this.coinCrrMasked = '';
-                    this.coin.crr = null;
+                let crr = parseInt(this.coinForm.crr, 10);
+                if (!crr) {
+                    this.coinForm.crr = '';
+                    this.$refs.crrInput.value = ''
                 } else {
                     // apply min/max
                     if (crr < MIN_CRR) {
@@ -120,8 +128,7 @@
                     if (crr > MAX_CRR) {
                         crr = MAX_CRR;
                     }
-                    this.coinCrrMasked = crr + '%';
-                    this.coin.crr = crr;
+                    this.coinForm.crr = crr + '%';
                 }
             },
             onAcceptReserve: makeAccepter('reserve'),
@@ -129,8 +136,8 @@
     }
 
     function makeAccepter(propName) {
-        return function(maskRef) {
-            this.coin[propName] = maskRef.detail._unmaskedValue;
+        return function(e) {
+            this.coinForm[propName] = e.detail._unmaskedValue;
         }
     }
 </script>
@@ -142,7 +149,8 @@
                 <h1 class="title form-row">Issue your coin</h1>
                 <label class="form-field form-row" :class="{'is-disabled': coinIsMinted}">
                     <input class="form-field__input" type="text" placeholder="Name your coin…"
-                           :value="coin.name"
+                           ref="nameInput"
+                           :value="coinForm.name"
                            :disabled="coinIsMinted"
                            v-imask="imaskNameOptions"
                            @accept="onAcceptName"
@@ -151,7 +159,8 @@
                 </label>
                 <label class="form-field form-row" :class="{'is-disabled': coinIsMinted}">
                     <input class="form-field__input" type="text" placeholder="Initial Supply"
-                           :value="coin.supply"
+                           ref="supplyInput"
+                           :value="coinForm.supply"
                            :disabled="coinIsMinted"
                            v-imask="imaskSupplyOptions"
                            @accept="onAcceptSupply"
@@ -160,16 +169,19 @@
                 </label>
                 <label class="form-field form-row" :class="{'is-disabled': coinIsMinted}">
                     <input class="form-field__input" type="text" placeholder="CRR, %"
-                           v-model.lazy="coinCrrMasked"
+                           ref="crrInput"
+                           :value="coinForm.crr"
                            v-money="moneyCrrOptions"
                            :disabled="coinIsMinted"
+                           @accept="onAcceptCrrMasked"
                            @blur="onBlurCrr"
                     >
                     <span class="form-field__help">Constant Reserve Ratio is the percentage of bips in the value of total supply.</span>
                 </label>
                 <label class="form-field form-row" :class="{'is-disabled': coinIsMinted}">
                     <input class="form-field__input" type="text" placeholder="Reserve"
-                           :value="coin.reserve"
+                           ref="reserveInput"
+                           :value="coinForm.reserve"
                            :disabled="coinIsMinted"
                            v-imask="imaskReserveOptions"
                            @accept="onAcceptReserve"
