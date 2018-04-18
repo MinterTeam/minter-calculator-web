@@ -2,6 +2,11 @@
 
 > Nuxt2 project
 
+## Deployment script
+```
+npm ci && npm run generate
+```
+
 ## Build Setup
 
 ``` bash
