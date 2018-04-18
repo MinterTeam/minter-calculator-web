@@ -12,6 +12,14 @@ import getters from './getters'
  * @property {number|null} reserve
  */
 
+/**
+ * @typedef {Object} Transaction
+ * @property {'buy'|'sell'|'exchange'} type
+ * @property {number} coinAmount
+ * @property {number} bipAmount
+ * @property {timestamp} timestamp
+ */
+
 export default function createStore () {
     return new Vuex.Store({
         state: {
@@ -30,6 +38,8 @@ export default function createStore () {
                 reserve: 0 || null,
             },
             coinIsMinted: false,
+            /** @type Array<Transaction> */
+            transactionList: [],
         },
         actions,
         mutations,

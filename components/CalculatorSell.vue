@@ -36,21 +36,16 @@
                 return this.$store.state.coin;
             },
         },
-        watch: {
-            coinAmount(newValue, oldValue) {
-                this.$nextTick(() => {
-                    this.$refs.coinInput.dispatchEvent(new Event('updateFormat'));
-                })
-            },
-            bipAmount(newValue, oldValue) {
-                this.$nextTick(() => {
-                    this.$refs.bipInput.dispatchEvent(new Event('updateFormat'));
-                })
-            }
-        },
         methods: {
             calculatorSubmit() {
-
+                this.$store.commit('MAKE_TX', {
+                    type: 'sell',
+                    coinAmount: this.coinAmount,
+                });
+                this.coinAmount = 0;
+                this.bipAmount = 0;
+                this.vMoneySellOptions.max = this.$store.state.coin.supply;
+                this.vMoneyGetOptions.max = this.$store.getters.coinMarketValue;
             },
             onChangeCoinAmount(e) {
                 this.coinAmount = e.detail.unmaskedValue;
@@ -94,7 +89,7 @@
                     </label>
                 </div>
                 <div class="u-cell u-cell--auto calculator__form-cell-submit">
-                    <button class="button button--main calculator__form-submit">Buy!</button>
+                    <button class="button button--main calculator__form-submit">Sell</button>
                 </div>
             </div>
         </form>

@@ -12,12 +12,12 @@
 </script>
 
 <template>
-    <main class="u-container">
-        <div class="u-grid u-grid--small u-grid--vertical-margin">
-            <section class="u-cell u-cell--medium--1-4">
+    <main class="u-container--only-medium">
+        <div class="u-grid u-grid--small">
+            <section class="u-cell u-cell--medium--3-10 u-cell--large--1-4">
                 <IssueForm/>
             </section>
-            <section class="u-cell u-cell--medium--3-4 calculator-cell">
+            <section class="u-cell u-cell--medium--7-10 u-cell--large--3-4 calculator-cell">
                 <Calculator/>
             </section>
         </div>

@@ -12,7 +12,10 @@ body {
     line-height: 1.4;
     color: @c-black;
     font-weight: 400;
-    background: @body-bg-color;
+    background: #fff;
+}
+@media (min-width: @breakpoint-medium-up) {
+    body {background: @body-bg-color;}
 }
 
 a, .link {color: inherit; outline: none; text-decoration: underline; text-decoration-skip: ink; transition: 0.15s;}

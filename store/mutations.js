@@ -1,6 +1,11 @@
 import Vue from 'vue'
+import {buyCoinByCoin, sellCoin} from "~/assets/utils-math";
 
 export default {
+    /**
+     * @param state
+     * @param {CoinFormData} coinForm
+     */
     MINT_COIN: (state, coinForm) => {
         state.coinSettings = coinForm;
         setCoinData(state.coin, coinForm);
@@ -11,6 +16,29 @@ export default {
         setCoinData(state.coin, {});
         state.coinIsMinted = false;
     },
+    /**
+     * @param state
+     * @param {Object<{type: string, coinAmount: number}>}
+     */
+    MAKE_TX: (state, {type, coinAmount}) => {
+        let bipAmount;
+        if (type === 'buy') {
+            bipAmount = buyCoinByCoin(state.coin, coinAmount);
+            state.coin.supply += coinAmount;
+            state.coin.reserve += bipAmount;
+        } else if (type === 'sell') {
+            bipAmount = sellCoin(state.coin, coinAmount);
+            state.coin.supply -= coinAmount;
+            state.coin.reserve -= bipAmount;
+        }
+        state.transactionList.push({
+            type,
+            coinAmount,
+            bipAmount,
+            timestamp: Date.now(),
+        });
+
+    }
 }
 
 /**

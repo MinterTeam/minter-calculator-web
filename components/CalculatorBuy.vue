@@ -34,21 +34,14 @@
                 return this.$store.state.coin;
             }
         },
-        watch: {
-            coinAmount(newValue, oldValue) {
-                this.$nextTick(() => {
-                    this.$refs.coinInput.dispatchEvent(new Event('updateFormat'));
-                })
-            },
-            bipAmount(newValue, oldValue) {
-                this.$nextTick(() => {
-                    this.$refs.bipInput.dispatchEvent(new Event('updateFormat'));
-                })
-            }
-        },
         methods: {
             calculatorSubmit() {
-
+                this.$store.commit('MAKE_TX', {
+                    type: 'buy',
+                    coinAmount: this.coinAmount,
+                });
+                this.coinAmount = 0;
+                this.bipAmount = 0;
             },
             onChangeCoinAmount(e) {
                 this.coinAmount = e.detail.unmaskedValue;
@@ -64,7 +57,7 @@
 
 <template>
     <div class="calculator__section">
-        <p>This is an example of how anyone will be able to buy your TKR and drive the price up!</p>
+        <p>This is an example of how anyone will be able to buy your {{ coin.name }} and drive the price up!</p>
         <form class="calculator__form" @submit.prevent="calculatorSubmit">
             <div class="u-grid u-grid--medium u-grid--vertical-margin calculator__form-grid">
                 <div class="u-cell u-cell--auto calculator__form-cell-field">

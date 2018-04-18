@@ -3,6 +3,8 @@
     import CalculatorBuy from "~/components/CalculatorBuy";
     import CalculatorSell from "~/components/CalculatorSell";
     import CalculatorExchange from "~/components/CalculatorExchange";
+    import CalculatorTransactionList from '~/components/CalculatorTransactionList';
+    import {roundCoin} from "~/assets/utils-math";
 
     const ACTION_BUY = 'buy';
     const ACTION_SELL = 'sell';
@@ -15,7 +17,8 @@
         components: {
             CalculatorBuy,
             CalculatorSell,
-            CalculatorExchange
+            CalculatorExchange,
+            CalculatorTransactionList,
         },
         data() {
             return {
@@ -26,7 +29,12 @@
             coin() {
                 return this.$store.state.coin;
             },
-            ...mapGetters(['coinPrice', 'coinMarketValue']),
+            coinPrice() {
+                return roundCoin(this.$store.getters.coinPrice);
+            },
+            coinMarketValue() {
+                return roundCoin(this.$store.getters.coinMarketValue);
+            },
         }
     }
 </script>
@@ -34,8 +42,8 @@
 <template>
     <div class="calculator">
         <div class="calculator-stats calculator__section">
-            <dl class="calculator-stats__list u-grid" v-if="$store.state.coinIsMinted">
-                <h2 class="calculator-stats__title u-cell u-cell--auto">Current Status <br class="u-hidden-medium-down"> of&nbsp;{{ coin.name }}</h2>
+            <dl class="calculator-stats__list u-grid u-grid--vertical-margin" v-if="$store.state.coinIsMinted">
+                <h2 class="calculator__title calculator-stats__title u-cell u-cell--auto">Current Status <br class="u-hidden-large-down"> of&nbsp;{{ coin.name }}</h2>
                 <div class="calculator-stats__item u-cell u-cell--auto">
                     <dt class="calculator-stats__name">Total Supply</dt>
                     <dd class="calculator-stats__value">{{ coin.supply }} {{ coin.name }}</dd>
@@ -72,5 +80,7 @@
         <CalculatorBuy v-if="$store.state.coinIsMinted && activeAction === $options.ACTION_BUY"/>
         <CalculatorSell v-if="$store.state.coinIsMinted && activeAction === $options.ACTION_SELL"/>
         <CalculatorExchange v-if="$store.state.coinIsMinted && activeAction === $options.ACTION_EXCHANGE"/>
+
+        <CalculatorTransactionList v-if="$store.state.coinIsMinted && $store.state.transactionList.length"/>
     </div>
 </template>

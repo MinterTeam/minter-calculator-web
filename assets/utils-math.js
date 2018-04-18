@@ -7,6 +7,9 @@
  * @return {number} - get bips
  */
 export const sellCoin = makeCoinBipMath((coin, coinAmount) => {
+    if (coin.supply === 0) {
+        return 0;
+    }
     return coin.reserve * (1 - Math.pow(1 - coinAmount / coin.supply, 1 / coin.crr));
 });
 
@@ -31,7 +34,7 @@ export const sellCoinByBip = makeCoinBipMath((coin, bipAmount) => {
  * @return {number} - get coins
  */
 export const buyCoin = makeCoinBipMath((coin, bipAmount) => {
-    return coin.supply * (Math.pow(1 + bipAmount / coin.reserve, coin.crr) - 1)
+    return coin.supply * (Math.pow(1 + bipAmount / coin.reserve, coin.crr) - 1);
 });
 
 /**
@@ -43,7 +46,7 @@ export const buyCoin = makeCoinBipMath((coin, bipAmount) => {
  * @return {number} - pay bips
  */
 export const buyCoinByCoin = makeCoinBipMath((coin, coinAmount) => {
-    return coin.reserve * (Math.pow(1 + coinAmount / coin.supply, 1 / coin.crr) - 1)
+    return coin.reserve * (Math.pow(1 + coinAmount / coin.supply, 1 / coin.crr) - 1);
 });
 
 
@@ -65,8 +68,7 @@ function makeCoinBipMath(formula) {
         if (!isCoinValid(coin)) {
             return 0;
         }
-        let outputAmount = formula(coin, inputAmount);
-        return round(outputAmount)
+        return formula(coin, inputAmount);
     }
 }
 
@@ -75,14 +77,26 @@ function makeCoinBipMath(formula) {
  * @return {boolean}
  */
 function isCoinValid(coin) {
-    return typeof coin.reserve === 'number' && typeof coin.supply === 'number' && typeof coin.crr === 'number'
+    return typeof coin.reserve === 'number' && typeof coin.supply === 'number' && typeof coin.crr === 'number';
 }
 
 /**
  * @param {number} num
  * @return {number}
  */
-function round(num) {
-    return Math.round(num * 1000) / 1000
+export function roundCoin(num) {
+    if (Math.abs(num) < Math.pow(0.1, 8)) {
+        return num
+    } else if (Math.abs(num) < Math.pow(0.1, 5)) {
+        return round(num, 8);
+    } else if (Math.abs(num) < Math.pow(0.1, 3)) {
+        return round(num, 5);
+    } else {
+        return round(num, 3);
+    }
 }
 
+function round(num, power) {
+    let tenPower = Math.pow(10, power);
+    return Math.round(num * tenPower) / tenPower;
+}

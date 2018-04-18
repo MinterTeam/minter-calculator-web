@@ -144,7 +144,7 @@
 
 <template>
     <div>
-        <form class="issue" @submit.prevent="mintCoin">
+        <form class="issue" @submit.prevent="mintCoin" :class="{'u-hidden-medium-down': coinIsMinted}">
             <div class="issue__fields">
                 <h1 class="title form-row">Issue your coin</h1>
                 <label class="form-field form-row" :class="{'is-disabled': coinIsMinted}">

@@ -1,3 +1,5 @@
+const nodeExternals = require('webpack-node-externals');
+
 const BASE_TITLE = 'Minter Calculator';
 const BASE_DESCRIPTION = '';
 
@@ -46,7 +48,7 @@ module.exports = {
         /*
         ** Run ESLint on save
         */
-        extend (config, { isDev, isClient }) {
+        extend (config, { isDev, isClient, isServer }) {
             if (isDev && isClient) {
                 config.module.rules.push({
                     enforce: 'pre',
@@ -55,6 +57,16 @@ module.exports = {
                     exclude: /(node_modules)/
                 })
             }
+            /*
+            ** process some node_modules through webpack in server build
+            */
+            // if (isServer) {
+            //     config.externals = [
+            //         nodeExternals({
+            //             whitelist: [/^v-money/]
+            //         })
+            //     ]
+            // }
         }
     }
 }
