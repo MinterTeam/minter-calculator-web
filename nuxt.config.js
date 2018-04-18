@@ -38,6 +38,29 @@ module.exports = {
         ],
     },
     /*
+    ** Modules
+    */
+    modules: [
+        '@nuxtjs/pwa'
+    ],
+    /*
+    ** PWA manifest
+     */
+    manifest: {
+        name: BASE_TITLE,
+        short_name: BASE_TITLE,
+        lang: 'en'
+    },
+    /*
+    ** PWA meta
+     */
+    meta: {
+        mobileAppIOS: true,
+        name: BASE_TITLE,
+        author: 'Minter',
+        favicon: false,
+    },
+    /*
     ** Build configuration
     */
     build: {

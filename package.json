@@ -13,7 +13,7 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "@nuxtjs/pwa": "^2.0.8",
     "imask": "^3.2.2",
     "nuxt-edge": "^2.0.0-25393601.a02935c",
     "v-money": "github:shrpne/v-money#features",
