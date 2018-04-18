@@ -20,6 +20,14 @@ import getters from './getters'
  * @property {timestamp} timestamp
  */
 
+/**
+ * @typedef {Transaction} TransactionExchange
+ * @property {number} deltaCoinPrice
+ * @property {number} deltaCoinPercent
+ * @property {number} deltaCupPrice
+ * @property {number} deltaCupPercent
+ */
+
 export default function createStore () {
     return new Vuex.Store({
         state: {
@@ -38,7 +46,14 @@ export default function createStore () {
                 reserve: 0 || null,
             },
             coinIsMinted: false,
-            /** @type Array<Transaction> */
+            /** @type Coin - predefined CUP coin */
+            cupCoin: {
+                name: 'CUP',
+                supply: 1000,
+                crr: 0.8,
+                reserve: 100,
+            },
+            /** @type Array<Transaction|TransactionExchange> */
             transactionList: [],
         },
         actions,

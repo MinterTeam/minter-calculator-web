@@ -4,7 +4,8 @@
     import CalculatorSell from "~/components/CalculatorSell";
     import CalculatorExchange from "~/components/CalculatorExchange";
     import CalculatorTransactionList from '~/components/CalculatorTransactionList';
-    import {roundCoin} from "~/assets/utils-math";
+    import CalculatorTransactionExchange from '~/components/CalculatorTransactionExchange';
+    import {roundCoin} from "~/assets/utils";
 
     const ACTION_BUY = 'buy';
     const ACTION_SELL = 'sell';
@@ -19,6 +20,7 @@
             CalculatorSell,
             CalculatorExchange,
             CalculatorTransactionList,
+            CalculatorTransactionExchange,
         },
         data() {
             return {
@@ -27,7 +29,10 @@
         },
         computed: {
             coin() {
-                return this.$store.state.coin;
+                return {
+                    ...this.$store.state.coin,
+                    supply: roundCoin(this.$store.state.coin.supply),
+                };
             },
             coinPrice() {
                 return roundCoin(this.$store.getters.coinPrice);
@@ -81,6 +86,12 @@
         <CalculatorSell v-if="$store.state.coinIsMinted && activeAction === $options.ACTION_SELL"/>
         <CalculatorExchange v-if="$store.state.coinIsMinted && activeAction === $options.ACTION_EXCHANGE"/>
 
-        <CalculatorTransactionList v-if="$store.state.coinIsMinted && $store.state.transactionList.length"/>
+        <!-- История транзакций показывается после обнуления коина, пока не выпущен новый -->
+        <CalculatorTransactionList v-if="!$store.state.coinIsMinted || activeAction === $options.ACTION_BUY || activeAction === $options.ACTION_SELL"/>
+        <CalculatorTransactionExchange v-if="$store.state.coinIsMinted && activeAction === $options.ACTION_EXCHANGE"/>
+        <div class="calculator__section" v-if="$store.state.coinIsMinted && activeAction === $options.ACTION_EXCHANGE">
+            <p>Every time people exchange one coin for another, they are actually burning (lowering) the&nbsp;supply of&nbsp;one coin and moving the&nbsp;reserve of&nbsp;bips to&nbsp;the&nbsp;other (issuing), making the&nbsp;latter more&nbsp;expensive.</p>
+            <p>That is a simple and basic rule for&nbsp;money: the&nbsp;more demand and reserve you get, the&nbsp;higher the&nbsp;price of&nbsp;your&nbsp;coin!</p>
+        </div>
     </div>
 </template>

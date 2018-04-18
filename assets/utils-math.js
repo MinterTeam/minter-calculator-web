@@ -7,6 +7,7 @@
  * @return {number} - get bips
  */
 export const sellCoin = makeCoinBipMath((coin, coinAmount) => {
+    coinAmount = Math.min(coin.supply, coinAmount);
     if (coin.supply === 0) {
         return 0;
     }
@@ -78,25 +79,4 @@ function makeCoinBipMath(formula) {
  */
 function isCoinValid(coin) {
     return typeof coin.reserve === 'number' && typeof coin.supply === 'number' && typeof coin.crr === 'number';
-}
-
-/**
- * @param {number} num
- * @return {number}
- */
-export function roundCoin(num) {
-    if (Math.abs(num) < Math.pow(0.1, 8)) {
-        return num
-    } else if (Math.abs(num) < Math.pow(0.1, 5)) {
-        return round(num, 8);
-    } else if (Math.abs(num) < Math.pow(0.1, 3)) {
-        return round(num, 5);
-    } else {
-        return round(num, 3);
-    }
-}
-
-function round(num, power) {
-    let tenPower = Math.pow(10, power);
-    return Math.round(num * tenPower) / tenPower;
 }

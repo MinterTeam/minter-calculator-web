@@ -54,7 +54,7 @@ hr {border: none; border-top: 1px solid @c-border;}
 
 // button
 .button {
-    display: inline-flex; align-items: center; justify-content: center; padding: 10px 26px; font-size: 16px; line-height: 18px; font-weight: 700; font-family: @heading-font-family; color: @c-black; text-align: center; border: 2px solid transparent; text-decoration: none; transition: 0.15s;
+    display: inline-flex; align-items: center; justify-content: center; padding: 8px 26px; font-size: 16px; line-height: 22px; font-weight: 700; font-family: @heading-font-family; color: @c-black; text-align: center; border: 2px solid transparent; text-decoration: none; transition: 0.15s;
     &:hover, &:focus {box-shadow: 0 4px 8px rgba(0,0,0,0.1);}
     &:active {box-shadow: 0 2px 4px rgba(0,0,0,0.1);}
     &[disabled], &.is-disabled {
@@ -102,7 +102,7 @@ hr {border: none; border-top: 1px solid @c-border;}
 @field-label-scale: 0.75;
 @field-padding: (@field-label-height * @field-label-scale);
 @field-label-top: (@field-padding + @field-input-padding);
-@field-label-translate: (@field-label-height + @field-input-padding);
+@field-label-translate: (@field-padding + @field-input-padding);
 .form-row {&+& {margin-top: 20px;}}
 .form-field {
     display: block; position: relative; cursor: pointer; font-weight: 400; padding-top: @field-padding; pointer-events: none;
@@ -114,7 +114,7 @@ hr {border: none; border-top: 1px solid @c-border;}
     .is-error > & {border-color: @c-red;}
 }
 .form-field__label {
-    font-size: 16px; line-height: @field-label-height; color: @c-black-light; position: absolute; left: 0; top: @field-label-top; transition: 0.2s; transform-origin: 0 50%; user-select: none;
+    font-size: 16px; line-height: @field-label-height; color: @c-black-light; position: absolute; left: 0; top: @field-label-top; transition: 0.2s; transform-origin: 0 0%; user-select: none; white-space: nowrap;
     .form-field__input:focus ~ &, .is-not-empty ~ & {transform: translateY(-@field-label-translate) scale(@field-label-scale);}
     .form-field__input:focus ~ & {color: @c-main;}
     .form-field.is-error > & {color: @c-red;}

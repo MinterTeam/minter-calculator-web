@@ -1,4 +1,4 @@
-import {sellCoin} from "~/assets/utils-math";
+import {sellCoin, buyCoinByCoin, sellCoinByBip} from "~/assets/utils-math";
 
 export default {
     /**
@@ -16,6 +16,15 @@ export default {
      */
     coinMarketValue: (state) => {
         return sellCoin(state.coin, state.coin.supply);
+    },
+    /**
+     * CUP Price - цена одного CUP в коинах
+     * @param state
+     * @return {number} - coin amount
+     */
+    cupPriceInCoins: (state) => {
+        let bipNeedForCup = buyCoinByCoin(state.cupCoin, 1);
+        return sellCoinByBip(state.coin, bipNeedForCup);
     },
 
 

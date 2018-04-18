@@ -1,5 +1,5 @@
 <script>
-    import {roundCoin} from "~/assets/utils-math";
+    import {roundCoin, formatTime} from "~/assets/utils";
 
     export default {
         computed: {
@@ -8,11 +8,10 @@
             },
             transactionList() {
                 let txList = this.$store.state.transactionList.map((tx) => {
-                    let txDate = new Date(tx.timestamp);
-                    let txTimeString = padZero(txDate.getHours()) + ':' + padZero(txDate.getMinutes()) + ':' + padZero(txDate.getSeconds());
                     return {
                         ...tx,
-                        time: txTimeString,
+                        time: formatTime(tx.timestamp),
+                        coinAmount: roundCoin(tx.coinAmount),
                         bipAmount: roundCoin(tx.bipAmount),
                     };
                 });
@@ -37,12 +36,12 @@
 </script>
 
 <template>
-    <div class="calculator__section">
+    <div class="calculator__section calculator__section--transaction" v-if="transactionList.length">
         <h2 class="calculator__title">History of Transactions</h2>
         <div class="calculator-transaction__list">
             <div class="calculator-transaction__item" v-for="transaction in transactionList" :key="transaction.timestamp">
                 <div class="calculator-transaction__time">{{ transaction.time }}</div>
-                <div class="calculator-transaction__content">
+                <div class="calculator-transaction__content" v-if="transaction.type === 'buy' || transaction.type === 'sell'">
                     <strong v-if="transaction.type === 'buy'">+</strong>
                     <strong v-if="transaction.type === 'sell'">-</strong>
                     <strong>{{ transaction.coinAmount }}</strong>
@@ -50,6 +49,9 @@
                     <span>for</span>
                     <strong>{{ transaction.bipAmount }}</strong>
                     <span>bips</span>
+                </div>
+                <div class="calculator-transaction__content" v-if="transaction.type === 'exchange'">
+                    <strong>- {{ transaction.coinAmount }}</strong> {{ coin.name }} for <strong>1</strong> CUP
                 </div>
             </div>
         </div>
