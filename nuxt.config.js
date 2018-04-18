@@ -41,10 +41,12 @@ module.exports = {
     ** Build configuration
     */
     build: {
-        vendor: [
-            'axios',
-        ],
         extractCSS: true,
+        optimization: {
+            splitChunks: {
+                name: true,
+            }
+        },
         /*
         ** Run ESLint on save
         */
