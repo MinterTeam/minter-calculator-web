@@ -26,6 +26,14 @@ export default {
         let bipNeedForCup = buyCoinByCoin(state.cupCoin, 1);
         return sellCoinByBip(state.coin, bipNeedForCup);
     },
+    /**
+     * кол-во бипов необходимых для покупки 1 CUP
+     * @param state
+     * @return {number} - bips amount
+     */
+    bipNeedForCup: (state) => {
+        return buyCoinByCoin(state.cupCoin, 1);
+    },
 
 
 }

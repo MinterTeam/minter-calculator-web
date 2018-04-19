@@ -36,6 +36,9 @@
         },
         methods: {
             calculatorSubmit() {
+                if (this.coinAmount === 0) {
+                    return;
+                }
                 this.$store.commit('MAKE_TX', {
                     type: 'buy',
                     coinAmount: this.coinAmount,

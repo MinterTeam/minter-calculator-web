@@ -23,6 +23,7 @@ export const sellCoin = makeCoinBipMath((coin, coinAmount) => {
  * @return {number} - sell coins
  */
 export const sellCoinByBip = makeCoinBipMath((coin, bipAmount) => {
+    bipAmount = Math.min(coin.reserve, bipAmount);
     return coin.supply * (1 - Math.pow(1 - bipAmount / coin.reserve, coin.crr));
 });
 

@@ -24,6 +24,10 @@
                     price: roundCoin(this.$store.getters.cupPriceInCoins),
                 };
             },
+            canExchange() {
+                // достаточно ли бипов в резерве для обмена коина на CUP
+                return this.$store.state.coin.reserve >= this.$store.getters.bipNeedForCup;
+            }
         },
         methods: {
             calculatorSubmit() {
@@ -90,7 +94,8 @@
                         Now, imagine if someone was willing to&nbsp;pay for&nbsp;a&nbsp;CUP of&nbsp;coffee with your&nbsp;coin.
                     </p>
                     <div class="u-cell u-cell--large--1-2">
-                        <button class="calculator-exchange__submit button button--main">Exchange {{ cup.price }} {{ coin.name }} for&nbsp;1&nbsp;CUP</button>
+                        <button class="calculator-exchange__submit button button--main" v-if="canExchange">Exchange {{ cup.price }} {{ coin.name }} for&nbsp;1&nbsp;CUP</button>
+                        <strong class="v-else">Not enough {{ coin.name }} to exchange</strong>
                     </div>
                 </div>
             </div>
