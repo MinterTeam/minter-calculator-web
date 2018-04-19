@@ -42,7 +42,7 @@
         <p>Minter allows an instant and fair exchange of any coin issued within the network. We’ve created a testcoin so you can play around. Here are its specs:</p>
         <form class="calculator__form" @submit.prevent="calculatorSubmit">
             <div class="u-grid u-grid--vertical-margin">
-                <div class="u-cell u-cell--medium--2-10">
+                <div class="u-cell u-cell--1-2 u-cell--medium--2-10">
                     <label class="form-field">
                         <input type="text" class="form-field__input" disabled
                                :value="cup.name"
@@ -51,7 +51,7 @@
                         <span class="form-field__label">Name</span>
                     </label>
                 </div>
-                <div class="u-cell u-cell--medium--2-10">
+                <div class="u-cell u-cell--1-2 u-cell--medium--2-10">
                     <label class="form-field">
                         <input type="text" class="form-field__input" disabled
                                :value="cup.supply"
@@ -60,7 +60,7 @@
                         <span class="form-field__label">Supply, CUP</span>
                     </label>
                 </div>
-                <div class="u-cell u-cell--medium--2-10">
+                <div class="u-cell u-cell--1-2 u-cell--medium--2-10">
                     <label class="form-field">
                         <input type="text" class="form-field__input" disabled
                                :value="cup.crr"
@@ -69,7 +69,7 @@
                         <span class="form-field__label">CRR, %</span>
                     </label>
                 </div>
-                <div class="u-cell u-cell--medium--2-10">
+                <div class="u-cell u-cell--1-2 u-cell--medium--2-10">
                     <label class="form-field">
                         <input type="text" class="form-field__input" disabled
                                :value="cup.reserve"
@@ -95,7 +95,7 @@
                     </p>
                     <div class="u-cell u-cell--large--1-2">
                         <button class="calculator-exchange__submit button button--main" v-if="canExchange">Exchange {{ cup.price }} {{ coin.name }} for&nbsp;1&nbsp;CUP</button>
-                        <strong class="v-else">Not enough {{ coin.name }} to exchange</strong>
+                        <strong v-else>Not enough {{ coin.name }} to exchange</strong>
                     </div>
                 </div>
             </div>
