@@ -34,6 +34,19 @@ export default {
     bipNeedForCup: (state) => {
         return buyCoinByCoin(state.cupCoin, 1);
     },
+    /**
+     * Упаковка информации о монете для сохранения в урл хэш
+     * @param state
+     * @return {string}
+     */
+    hashCoinData: (state) => {
+        let data = {
+            coinSettings: state.coinSettings,
+            coin: state.coin,
+            coinIsMinted: state.coinIsMinted,
+        };
+        return JSON.stringify(data);
+    }
 
 
 }

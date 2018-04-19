@@ -24,7 +24,12 @@
      */
 
     export default {
-        name: 'IssueForm',
+        created() {
+            setCoinData(this.coinForm, this.$store.state.coinSettings, {undefinedNumber: ''});
+            this.$root.$on('initCoinData', () => {
+                setCoinData(this.coinForm, this.$store.state.coinSettings, {undefinedNumber: ''});
+            });
+        },
         directives: {
             imask: IMaskDirective,
             money: VMoney,
@@ -34,10 +39,10 @@
             return {
                 /** @type CoinFormData */
                 coinForm: {
-                    name: this.$store.state.coinSettings.name,
-                    supply: this.$store.state.coinSettings.supply,
-                    crr: this.$store.state.coinSettings.crr,
-                    reserve: this.$store.state.coinSettings.reserve,
+                    name: '',
+                    supply: '',
+                    crr: '',
+                    reserve: '',
                 },
                 imaskNameOptions: {
                     mask: 'aaa',
@@ -102,7 +107,7 @@
                 // reset store
                 this.$store.commit('RESET_COIN');
                 // reset data
-                setCoinData(this.coinForm, {});
+                setCoinData(this.coinForm, {}, {undefinedNumber: ''});
                 this.$v.$reset();
                 // reset iMask instances
                 this.$refs.nameInput.maskRef.value = '';

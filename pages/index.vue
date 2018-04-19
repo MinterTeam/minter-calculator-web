@@ -3,10 +3,34 @@
     import Calculator from "~/components/Calculator";
 
     export default {
+        beforeRouteEnter(to, from, next) {
+            // Восстановление информации о монете их урл хэша
+            next((vm) => {
+                try {
+                    let hash = unescape(to.hash.substr(1));
+                    let initialCoinData = JSON.parse(hash);
+                    vm.$store.commit('INIT_COIN_DATA', initialCoinData);
+                    vm.$root.$emit('initCoinData');
+                } catch (e) {
+
+                }
+            })
+
+        },
         components: {
             IssueForm,
             Calculator,
-
+        },
+        watch: {
+            hashCoinData(newValue) {
+                // Сохранение информации о монете в урл хэш
+                window.location.hash = newValue;
+            },
+        },
+        computed: {
+            hashCoinData() {
+                return this.$store.getters.hashCoinData;
+            },
         }
     }
 </script>
