@@ -7,7 +7,7 @@
             // Восстановление информации о монете их урл хэша
             next((vm) => {
                 try {
-                    let hash = unescape(to.hash.substr(1));
+                    let hash = decodeURI(to.hash.substr(1));
                     let initialCoinData = JSON.parse(hash);
                     vm.$store.commit('INIT_COIN_DATA', initialCoinData);
                     vm.$root.$emit('initCoinData');
