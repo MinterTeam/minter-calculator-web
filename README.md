@@ -1,13 +1,14 @@
 # minter-calculator
 
-> Nuxt2 project
+[calculator.minter.network](https://calculator.minter.network)
 
 ## Deployment script
 ```
-npm ci && npm run generate
+npm ci && npm run production
 ```
+Root folder: `./dist/`
 
-## Build Setup
+## Nuxt build info
 
 ``` bash
 # install dependencies

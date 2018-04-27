@@ -5,6 +5,8 @@
   "author": "shrpne <shrpne@gmail.com>",
   "private": true,
   "scripts": {
+    "prod": "npm run production",
+    "production": "npm run generate",
     "dev": "gulp & nuxt --spa",
     "build": "gulp once && nuxt build",
     "start": "nuxt start",
