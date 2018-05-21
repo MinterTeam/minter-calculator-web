@@ -38,7 +38,7 @@
                 return roundCoin(this.$store.getters.coinPrice);
             },
             coinMarketValue() {
-                return roundCoin(this.$store.getters.coinMarketValue);
+                return roundCoin(this.$store.getters.coinPrice * this.coin.supply);
             },
         }
     }

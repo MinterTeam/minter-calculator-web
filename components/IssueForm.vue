@@ -28,6 +28,7 @@
             setCoinData(this.coinForm, this.$store.state.coinSettings, {undefinedNumber: ''});
             this.$root.$on('initCoinData', () => {
                 setCoinData(this.coinForm, this.$store.state.coinSettings, {undefinedNumber: ''});
+                //@TODO add percent sign
             });
         },
         directives: {

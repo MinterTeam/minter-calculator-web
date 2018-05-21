@@ -10,11 +10,11 @@ export default {
         return sellCoin(state.coin, 1);
     },
     /**
-     * Coin Market Value - кол-во бипов, получаемых за продажу все коинов
+     * Coin Total Value - кол-во бипов, получаемых за продажу все коинов
      * @param state
      * @return {number} - bips amount
      */
-    coinMarketValue: (state) => {
+    coinTotalValue: (state) => {
         return sellCoin(state.coin, state.coin.supply);
     },
     /**

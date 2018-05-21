@@ -27,7 +27,7 @@
                 }),
                 vMoneyGetOptions: Object.assign({}, V_MONEY_OPTIONS, {
                     suffix: ' bips',
-                    max: this.$store.getters.coinMarketValue,
+                    max: this.$store.getters.coinTotalValue,
                 }),
             }
         },
@@ -48,7 +48,7 @@
                 this.coinAmount = 0;
                 this.bipAmount = 0;
                 this.vMoneySellOptions.max = this.$store.state.coin.supply;
-                this.vMoneyGetOptions.max = this.$store.getters.coinMarketValue;
+                this.vMoneyGetOptions.max = this.$store.getters.coinTotalValue;
             },
             onChangeCoinAmount(e) {
                 this.coinAmount = e.detail.unmaskedValue;

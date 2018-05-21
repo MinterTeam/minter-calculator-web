@@ -40,9 +40,9 @@ function reducePrecision(num) {
     } else if (Math.abs(num) < Math.pow(0.1, 5)) {
         return round(num, 8);
     } else if (Math.abs(num) < Math.pow(0.1, 3)) {
-        return round(num, 5);
+        return round(num, 6);
     } else {
-        return round(num, 3);
+        return round(num, 4);
     }
 }
 
