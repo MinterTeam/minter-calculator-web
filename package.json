@@ -17,16 +17,16 @@
   "dependencies": {
     "@nuxtjs/pwa": "^2.0.8",
     "imask": "^3.3.0",
-    "nuxt-edge": "^2.0.0-25440915.dcc92c6",
+    "nuxt-edge": "^2.0.0-25459710.0d0d83c",
     "v-money": "github:shrpne/v-money#features",
     "vue-imask": "^3.3.0",
     "vuelidate": "^0.6.2"
   },
   "devDependencies": {
-    "autoprefixer": "^8.5.0",
+    "autoprefixer": "^8.5.2",
     "babel-eslint": "^8.2.3",
     "beeper": "^1.1.1",
-    "cross-env": "^5.1.5",
+    "cross-env": "^5.1.6",
     "del": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-friendly-formatter": "^4.0.1",

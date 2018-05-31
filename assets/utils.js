@@ -4,7 +4,7 @@
  * @return {string}
  */
 export function roundCoin(num, precision = 3){
-    let data= String(num).split(/[eE]/);
+    let data = String(num).split(/[eE]/);
     if (data.length === 1) {
         return reducePrecision(num).toString();
     }
