@@ -1,4 +1,4 @@
-# Minter Status Website
+# Minter Calculator Website
 
 This repository contain the code for the official Minter Calculator website [calculator.minter.network](https://calculator.minter.network)
 
