@@ -10,10 +10,10 @@ export default ({ app }) => {
         try {
             window.yaCounter49878307 = new Ya.Metrika2({
                 id: 49878307,
-                clickmap: false,
+                clickmap: true,
                 trackLinks: true,
                 accurateTrackBounce: true,
-                webvisor: false
+                webvisor: true
             });
         } catch (e) {}
     });
