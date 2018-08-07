@@ -17,18 +17,18 @@
   "dependencies": {
     "@nuxtjs/pwa": "^2.0.8",
     "imask": "^3.4.0",
-    "nuxt-edge": "^2.0.0-25552561.fceb30b",
+    "nuxt-edge": "^2.0.0-25560616.24daeba",
     "v-money": "github:shrpne/v-money#features",
     "vue-imask": "^3.4.1",
     "vuelidate": "^0.7.4"
   },
   "devDependencies": {
-    "autoprefixer": "^9.0.2",
+    "autoprefixer": "^9.1.0",
     "babel-eslint": "^8.2.6",
     "beeper": "^1.1.1",
     "cross-env": "^5.2.0",
     "del": "^3.0.0",
-    "eslint": "^5.2.0",
+    "eslint": "^5.3.0",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^2.1.0",
     "eslint-plugin-vue": "^4.7.1",
@@ -39,7 +39,7 @@
     "gulp-imagemin": "^4.1.0",
     "gulp-less": "^4.0.1",
     "gulp-plumber": "^1.2.0",
-    "gulp-postcss": "^7.0.1",
+    "gulp-postcss": "^8.0.0",
     "gulp-rename": "^1.4.0",
     "imagemin-mozjpeg": "^7.0.0",
     "postcss-normalize": "^6.0.0"
