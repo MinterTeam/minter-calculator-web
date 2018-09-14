@@ -3,7 +3,7 @@
 
     export default {
         footerLinkList: footerLinksData,
-    }
+    };
 </script>
 
 <template>

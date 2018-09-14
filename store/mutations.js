@@ -1,4 +1,4 @@
-import getters from './getters'
+import getters from './getters';
 import {buyCoinByCoin, sellCoin} from "~/assets/utils-math";
 
 export default {
@@ -81,8 +81,8 @@ export default {
         if (state.coin.supply <= 0) {
             resetCoin(state);
         }
-    }
-}
+    },
+};
 
 /**
  * @param coinState

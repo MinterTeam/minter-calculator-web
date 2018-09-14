@@ -21,7 +21,7 @@ module.exports = {
             { rel: 'icon', href: '/favicon.png' },
             { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
             { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Ubuntu:400,700' },
-        ]
+        ],
     },
     css: [
         './static/css/style.min.css',
@@ -49,7 +49,7 @@ module.exports = {
     ** Modules
     */
     modules: [
-        '@nuxtjs/pwa'
+        '@nuxtjs/pwa',
     ],
     /*
     ** PWA manifest
@@ -57,7 +57,7 @@ module.exports = {
     manifest: {
         name: BASE_TITLE,
         short_name: BASE_TITLE,
-        lang: 'en'
+        lang: 'en',
     },
     /*
     ** PWA meta
@@ -76,19 +76,19 @@ module.exports = {
         optimization: {
             splitChunks: {
                 name: true,
-            }
+            },
         },
         /*
         ** Run ESLint on save
         */
-        extend (config, { isDev, isClient, isServer }) {
+        extend(config, { isDev, isClient, isServer }) {
             if (isDev && isClient) {
                 config.module.rules.push({
                     enforce: 'pre',
                     test: /\.(js|vue)$/,
                     loader: 'eslint-loader',
-                    exclude: /(node_modules)/
-                })
+                    exclude: /(node_modules)/,
+                });
             }
             /*
             ** process some node_modules through webpack in server build
@@ -100,6 +100,6 @@ module.exports = {
             //         })
             //     ]
             // }
-        }
-    }
-}
+        },
+    },
+};

@@ -25,7 +25,7 @@
         data() {
             return {
                 activeAction: ACTION_BUY,
-            }
+            };
         },
         computed: {
             coin() {
@@ -40,8 +40,8 @@
             coinMarketValue() {
                 return roundCoin(this.$store.getters.coinPrice * this.coin.supply);
             },
-        }
-    }
+        },
+    };
 </script>
 
 <template>
@@ -55,11 +55,11 @@
                 </div>
                 <div class="calculator-stats__item u-cell u-cell--auto">
                     <dt class="calculator-stats__name">Price of 1 {{ coin.name }}</dt>
-                    <dd class="calculator-stats__value">{{ coinPrice }} bips</dd>
+                    <dd class="calculator-stats__value">{{ coinPrice }} BIP</dd>
                 </div>
                 <div class="calculator-stats__item u-cell u-cell--auto">
                     <dt class="calculator-stats__name">Market Value</dt>
-                    <dd class="calculator-stats__value">{{ coinMarketValue }} bips</dd>
+                    <dd class="calculator-stats__value">{{ coinMarketValue }} BIP</dd>
                 </div>
             </dl>
             <div class="calculator-stats__no-coin u-text-center" v-else>Issue your coin to start exchanging, buying, and selling.</div>
@@ -90,7 +90,7 @@
         <CalculatorTransactionList v-if="!$store.state.coinIsMinted || activeAction === $options.ACTION_BUY || activeAction === $options.ACTION_SELL"/>
         <CalculatorTransactionExchange v-if="$store.state.coinIsMinted && activeAction === $options.ACTION_EXCHANGE"/>
         <div class="calculator__section" v-if="$store.state.coinIsMinted && activeAction === $options.ACTION_EXCHANGE">
-            <p>Every time people exchange one coin for another, they are actually burning (lowering) the&nbsp;supply of&nbsp;one coin and moving the&nbsp;reserve of&nbsp;bips to&nbsp;the&nbsp;other (issuing), making the&nbsp;latter more&nbsp;expensive.</p>
+            <p>Every time people exchange one coin for another, they are actually burning (lowering) the&nbsp;supply of&nbsp;one coin and moving the&nbsp;reserve of&nbsp;BIPs to&nbsp;the&nbsp;other (issuing), making the&nbsp;latter more&nbsp;expensive.</p>
             <p>That is a simple and basic rule for&nbsp;money: the&nbsp;more demand and reserve you get, the&nbsp;higher the&nbsp;price of&nbsp;your&nbsp;coin!</p>
         </div>
     </div>

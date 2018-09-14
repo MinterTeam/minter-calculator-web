@@ -1,8 +1,8 @@
-import Vuex from 'vuex'
+import Vuex from 'vuex';
 
-import actions from './actions'
-import mutations from './mutations'
-import getters from './getters'
+import actions from './actions';
+import mutations from './mutations';
+import getters from './getters';
 
 /**
  * @typedef {Object} Coin
@@ -28,7 +28,7 @@ import getters from './getters'
  * @property {number} deltaCupPercent
  */
 
-export default function createStore () {
+export default function createStore() {
     return new Vuex.Store({
         state: {
             /** @type CoinFormData - initial coin settings */
@@ -59,5 +59,5 @@ export default function createStore () {
         actions,
         mutations,
         getters,
-    })
+    });
 }

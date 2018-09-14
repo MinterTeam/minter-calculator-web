@@ -66,12 +66,12 @@ export const buyCoinByCoin = makeCoinBipMath((coin, coinAmount) => {
  * @return {Function}
  */
 function makeCoinBipMath(formula) {
-    return function (coin, inputAmount) {
+    return function(coin, inputAmount) {
         if (!isCoinValid(coin)) {
             return 0;
         }
         return formula(coin, inputAmount);
-    }
+    };
 }
 
 /**

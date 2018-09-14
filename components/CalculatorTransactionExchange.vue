@@ -17,14 +17,14 @@
                         deltaCoinPercent: roundCoin(lastTx.deltaCoinPercent),
                         deltaCupPrice: roundCoin(lastTx.deltaCupPrice),
                         deltaCupPercent: roundCoin(lastTx.deltaCupPercent),
-                    }
+                    };
                 } else {
                     return null;
                 }
 
-            }
-        }
-    }
+            },
+        },
+    };
 
 
 </script>
@@ -43,13 +43,13 @@
                         <div class="u-cell u-cell--medium--1-2">
                             Price of 1 CUP after transaction <br>
                             <strong class="calculator-transaction__green">
-                                {{ lastTxExchange.deltaCupPrice }} bips, +{{ lastTxExchange.deltaCupPercent }}%
+                                {{ lastTxExchange.deltaCupPrice }} BIP, +{{ lastTxExchange.deltaCupPercent }}%
                             </strong>
                         </div>
                         <div class="u-cell u-cell--medium--1-2">
                             Price of 1 {{ coin.name }} after transaction <br>
                             <strong class="calculator-transaction__red">
-                                {{ lastTxExchange.deltaCoinPrice }} bips, -{{ lastTxExchange.deltaCoinPercent }}%
+                                {{ lastTxExchange.deltaCoinPrice }} BIP, -{{ lastTxExchange.deltaCoinPercent }}%
                             </strong>
                         </div>
                     </div>

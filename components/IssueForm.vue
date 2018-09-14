@@ -3,7 +3,7 @@
     import {validationMixin} from 'vuelidate';
     import required from 'vuelidate/lib/validators/required';
     import withParams from 'vuelidate/lib/withParams';
-    import {VMoney} from 'v-money';
+    import VueAutonumeric from 'vue-autonumeric/src/components/VueAutonumeric';
     import {IMaskDirective} from 'vue-imask';
     import {setCoinData} from "~/store/mutations";
 
@@ -31,9 +31,11 @@
                 //@TODO add percent sign
             });
         },
+        components: {
+            VueAutonumeric,
+        },
         directives: {
             imask: IMaskDirective,
-            money: VMoney,
         },
         mixins: [validationMixin],
         data() {
@@ -54,22 +56,25 @@
                     scale: 0,  // digits after point, 0 for integers
                     signed: false,  // disallow negative
                 },
-                moneyCrrOptions: {
-                    decimal: '.',
-                    thousands: '',
-                    prefix: '',
-                    suffix: '%',
-                    precision: 0,
-                    min: 0,
-                    max: MAX_CRR,
-                    allowBlank: true,
+                maskCrrOptions: {
+                    allowDecimalPadding: false,
+                    decimalPlaces: 0,
+                    digitGroupSeparator: '',
+                    emptyInputBehavior: 'null',
+                    currencySymbol: '\u2009%',
+                    maximumValue: MAX_CRR,
+                    currencySymbolPlacement: 's',
+                    minimumValue: '0',
+                    overrideMinMaxLimits: 'ignore',
+                    unformatOnHover: false,
+                    wheelStep: 1,
                 },
                 imaskReserveOptions: {
                     mask: Number,
                     scale: 0,  // digits after point, 0 for integers
                     signed: false,  // disallow negative
                 },
-            }
+            };
         },
         validations() {
             return {
@@ -88,7 +93,7 @@
                         required,
                     },
                 },
-            }
+            };
         },
         computed: {
             ...mapState(['coinIsMinted']),
@@ -118,33 +123,21 @@
             // masks
             onAcceptName: makeAccepter('name'),
             onAcceptSupply: makeAccepter('supply'),
-            onAcceptCrrMasked(e) {
-                this.coinForm.crr = e.detail.unmaskedValue ? e.detail.value : '';
-            },
             onBlurCrr() {
-                let crr = parseInt(this.coinForm.crr, 10);
-                if (!crr) {
-                    this.coinForm.crr = '';
-                    this.$refs.crrInput.value = ''
-                } else {
-                    // apply min/max
-                    if (crr < MIN_CRR) {
-                        crr = MIN_CRR;
-                    }
-                    if (crr > MAX_CRR) {
-                        crr = MAX_CRR;
-                    }
-                    this.coinForm.crr = crr + '%';
+                if (this.coinForm.crr < MIN_CRR) {
+                    this.coinForm.crr = MIN_CRR;
+                } else if (this.coinForm.crr > MAX_CRR) {
+                    this.coinForm.crr = MAX_CRR;
                 }
             },
             onAcceptReserve: makeAccepter('reserve'),
-        }
-    }
+        },
+    };
 
     function makeAccepter(propName) {
         return function(e) {
             this.coinForm[propName] = e.detail._unmaskedValue;
-        }
+        };
     }
 </script>
 
@@ -174,15 +167,13 @@
                     <span class="form-field__help">How many coins do you want to start with?</span>
                 </label>
                 <label class="form-field form-row" :class="{'is-disabled': coinIsMinted}">
-                    <input class="form-field__input" type="text" placeholder="CRR, %"
-                           ref="crrInput"
-                           :value="coinForm.crr"
-                           v-money="moneyCrrOptions"
+                    <VueAutonumeric class="form-field__input" type="text" placeholder="CRR, %" inputmode="numeric"
+                           v-model="coinForm.crr"
+                           :options="maskCrrOptions"
                            :disabled="coinIsMinted"
-                           @accept="onAcceptCrrMasked"
-                           @blur="onBlurCrr"
-                    >
-                    <span class="form-field__help">Constant Reserve Ratio is the percentage of bips in the value of total supply.</span>
+                           @blur.native="onBlurCrr"
+                    />
+                    <span class="form-field__help">Constant Reserve Ratio is the percentage of BIPs in the value of total supply.</span>
                 </label>
                 <label class="form-field form-row" :class="{'is-disabled': coinIsMinted}">
                     <input class="form-field__input" type="text" placeholder="Reserve"
@@ -192,7 +183,7 @@
                            v-imask="imaskReserveOptions"
                            @accept="onAcceptReserve"
                     >
-                    <span class="form-field__help">The number of bips in the initial emission.</span>
+                    <span class="form-field__help">The number of BIPs in the initial emission.</span>
                 </label>
             </div>
             <button class="issue__button button button--main" v-if="!coinIsMinted" :disabled="$v.$invalid">Mint!</button>

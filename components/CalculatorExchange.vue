@@ -27,14 +27,14 @@
             canExchange() {
                 // достаточно ли бипов в резерве для обмена коина на CUP
                 return this.$store.state.coin.reserve >= this.$store.getters.bipNeedForCup;
-            }
+            },
         },
         methods: {
             calculatorSubmit() {
                 this.$store.commit('MAKE_TX_EXCHANGE');
             },
         },
-    }
+    };
 </script>
 
 <template>
@@ -75,7 +75,7 @@
                                :value="cup.reserve"
                                v-check-empty
                         >
-                        <span class="form-field__label">Reserve, bip</span>
+                        <span class="form-field__label">Reserve, BIP</span>
                     </label>
                 </div>
                 <div class="u-cell u-cell--medium--2-10">

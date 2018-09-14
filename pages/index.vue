@@ -14,7 +14,7 @@
                 } catch (e) {
 
                 }
-            })
+            });
 
         },
         components: {
@@ -31,8 +31,8 @@
             hashCoinData() {
                 return this.$store.getters.hashCoinData;
             },
-        }
-    }
+        },
+    };
 </script>
 
 <template>

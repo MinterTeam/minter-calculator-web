@@ -46,7 +46,7 @@ export default {
             coinIsMinted: state.coinIsMinted,
         };
         return JSON.stringify(data);
-    }
+    },
 
 
-}
+};

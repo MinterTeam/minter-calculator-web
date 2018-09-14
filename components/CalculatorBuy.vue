@@ -1,38 +1,44 @@
 <script>
-    import {VMoney} from 'v-money';
+    import VueAutonumeric from 'vue-autonumeric/src/components/VueAutonumeric';
     import checkEmpty from '~/assets/v-check-empty';
     import {buyCoin, buyCoinByCoin} from "~/assets/utils-math";
 
-    const V_MONEY_OPTIONS = {
-        decimal: '.',
-        thousands: '',
-        prefix: '',
-        precision: 0,
-        min: 0,
-        allowBlank: true,
+    const MASK_OPTIONS = {
+        allowDecimalPadding: false,
+        decimalPlaces: 0,
+        digitGroupSeparator: '',
+        emptyInputBehavior: 'zero',
+        // currencySymbol: '\u2009%',
+        currencySymbolPlacement: 's',
+        minimumValue: '0',
+        overrideMinMaxLimits: 'ignore',
+        unformatOnHover: false,
+        wheelStep: 1,
     };
 
     export default {
+        components: {
+            VueAutonumeric,
+        },
         directives: {
             checkEmpty,
-            money: VMoney,
         },
         data() {
             return {
                 coinAmount: 0,
                 bipAmount: 0,
-                vMoneyBuyOptions: Object.assign({}, V_MONEY_OPTIONS, {
-                    suffix: ' ' + this.$store.state.coin.name,
+                maskBuyOptions: Object.assign({}, MASK_OPTIONS, {
+                    currencySymbol: '\u2009' + this.$store.state.coin.name,
                 }),
-                vMoneyPayOptions: Object.assign({}, V_MONEY_OPTIONS, {
-                    suffix: ' bips',
+                maskPayOptions: Object.assign({}, MASK_OPTIONS, {
+                    currencySymbol: '\u2009BIP',
                 }),
-            }
+            };
         },
         computed: {
             coin() {
                 return this.$store.state.coin;
-            }
+            },
         },
         methods: {
             calculatorSubmit() {
@@ -46,16 +52,14 @@
                 this.coinAmount = 0;
                 this.bipAmount = 0;
             },
-            onChangeCoinAmount(e) {
-                this.coinAmount = e.detail.unmaskedValue;
+            onChangeCoinAmount() {
                 this.bipAmount = Math.round(buyCoinByCoin(this.coin, this.coinAmount));
             },
-            onChangeBipAmount(e) {
-                this.bipAmount = e.detail.unmaskedValue;
+            onChangeBipAmount() {
                 this.coinAmount = Math.round(buyCoin(this.coin, this.bipAmount));
             },
         },
-    }
+    };
 </script>
 
 <template>
@@ -65,25 +69,21 @@
             <div class="u-grid u-grid--medium u-grid--vertical-margin calculator__form-grid">
                 <div class="u-cell u-cell--auto calculator__form-cell-field">
                     <label class="form-field">
-                        <input type="text" class="form-field__input"
-                               ref="coinInput"
-                               :value="coinAmount"
-                               v-money="vMoneyBuyOptions"
-                               v-check-empty
-                               @accept="onChangeCoinAmount"
-                        >
+                        <VueAutonumeric type="text" class="form-field__input" inputmode="numeric" v-check-empty="'autoNumeric:formatted'"
+                               v-model="coinAmount"
+                               :options="maskBuyOptions"
+                               @input.native="onChangeCoinAmount"
+                        />
                         <span class="form-field__label">Buy</span>
                     </label>
                 </div>
                 <div class="u-cell u-cell--auto calculator__form-cell-field">
                     <label class="form-field">
-                        <input type="text" class="form-field__input"
-                               ref="bipInput"
-                               :value="bipAmount"
-                               v-money="vMoneyPayOptions"
-                               v-check-empty
-                               @accept="onChangeBipAmount"
-                        >
+                        <VueAutonumeric type="text" class="form-field__input" inputmode="numeric" v-check-empty="'autoNumeric:formatted'"
+                               v-model="bipAmount"
+                               :options="maskPayOptions"
+                               @input.native="onChangeBipAmount"
+                        />
                         <span class="form-field__label">Pay</span>
                     </label>
                 </div>

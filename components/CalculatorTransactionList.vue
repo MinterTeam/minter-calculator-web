@@ -17,9 +17,9 @@
                 });
 
                 return txList.reverse();
-            }
-        }
-    }
+            },
+        },
+    };
 
     /**
      * padStart with 0
@@ -48,7 +48,7 @@
                     <span>{{ coin.name }}</span>
                     <span>for</span>
                     <strong>{{ transaction.bipAmount }}</strong>
-                    <span>bips</span>
+                    <span>BIP</span>
                 </div>
                 <div class="calculator-transaction__content" v-if="transaction.type === 'exchange'">
                     <strong>- {{ transaction.coinAmount }}</strong> {{ coin.name }} for <strong>1</strong> CUP
