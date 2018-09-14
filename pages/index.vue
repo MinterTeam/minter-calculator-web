@@ -6,6 +6,9 @@
         beforeRouteEnter(to, from, next) {
             // Восстановление информации о монете их урл хэша
             next((vm) => {
+                if (process.server) {
+                    return;
+                }
                 try {
                     let hash = decodeURI(to.hash.substr(1));
                     let initialCoinData = JSON.parse(hash);
@@ -15,7 +18,6 @@
 
                 }
             });
-
         },
         components: {
             IssueForm,
@@ -23,6 +25,9 @@
         },
         watch: {
             hashCoinData(newValue) {
+                if (process.server) {
+                    return;
+                }
                 // Сохранение информации о монете в урл хэш
                 window.location.hash = newValue;
             },

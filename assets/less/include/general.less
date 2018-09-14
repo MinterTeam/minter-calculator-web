@@ -110,7 +110,7 @@ hr {border: none; border-top: 1px solid @c-border;}
 }
 .form-field__input {
     padding: @field-input-padding 0 4px; font-size: 16px; line-height: 22px; color: inherit; background: transparent; border: none; border-bottom: 1px solid #999; transition: 0.15s; display: block; width: 100%; pointer-events: auto; border-radius: 0; opacity: 1; /* safari disabled fix */ -webkit-text-fill-color: currentcolor; /* safari disabled fix */
-    &:focus {border-color: @c-main;}
+    &:focus {border-color: @c-main; outline: none;}
     .is-error > & {border-color: @c-red;}
 }
 .form-field__label {
