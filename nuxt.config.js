@@ -1,4 +1,4 @@
-const nodeExternals = require('webpack-node-externals');
+// const nodeExternals = require('webpack-node-externals');
 
 const BASE_TITLE = 'Minter Calculator';
 const BASE_DESCRIPTION = '';
@@ -78,28 +78,15 @@ module.exports = {
                 name: true,
             },
         },
-        /*
-        ** Run ESLint on save
-        */
-        extend(config, { isDev, isClient, isServer }) {
-            if (isDev && isClient) {
-                config.module.rules.push({
-                    enforce: 'pre',
-                    test: /\.(js|vue)$/,
-                    loader: 'eslint-loader',
-                    exclude: /(node_modules)/,
-                });
-            }
-            /*
-            ** process some node_modules through webpack in server build
-            */
-            // if (isServer) {
-            //     config.externals = [
-            //         nodeExternals({
-            //             whitelist: [/^v-money/]
-            //         })
-            //     ]
-            // }
-        },
+        // babel: {
+        //     presets: ['@nuxt/babel-preset-app'],
+        //     // prevent @babel/plugin-transform-runtime from inserting `import` statement into commonjs files (bc. it breaks webpack)
+        //     sourceType: 'unambiguous',
+        // },
+        transpile: [
+            // /es6-promise|\.(?!(?:js|json)$).{1,5}$/i,
+            'vue-autonumeric/src',
+            'from-exponential/src',
+        ],
     },
 };

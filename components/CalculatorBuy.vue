@@ -1,5 +1,7 @@
 <script>
-    import VueAutonumeric from 'vue-autonumeric/src/components/VueAutonumeric';
+    // needed for `autonumeric`
+    import 'core-js/modules/es6.object.freeze';
+    // import VueAutonumeric from 'vue-autonumeric/src/components/VueAutonumeric';
     import checkEmpty from '~/assets/v-check-empty';
     import {buyCoin, buyCoinByCoin} from "~/assets/utils-math";
 
@@ -18,7 +20,7 @@
 
     export default {
         components: {
-            VueAutonumeric,
+            VueAutonumeric: () => import('vue-autonumeric/src/components/VueAutonumeric'),
         },
         directives: {
             checkEmpty,
@@ -69,21 +71,27 @@
             <div class="u-grid u-grid--medium u-grid--vertical-margin calculator__form-grid">
                 <div class="u-cell u-cell--auto calculator__form-cell-field">
                     <label class="form-field">
-                        <VueAutonumeric type="text" class="form-field__input" inputmode="numeric" v-check-empty="'autoNumeric:formatted'"
-                               v-model="coinAmount"
-                               :options="maskBuyOptions"
-                               @input.native="onChangeCoinAmount"
-                        />
+                        <no-ssr>
+                            <VueAutonumeric type="text" class="form-field__input" inputmode="numeric" v-check-empty="'autoNumeric:formatted'"
+                                            v-model="coinAmount"
+                                            :options="maskBuyOptions"
+                                            @input.native="onChangeCoinAmount"
+                            />
+                            <input class="form-field__input" type="text" slot="placeholder">
+                        </no-ssr>
                         <span class="form-field__label">Buy</span>
                     </label>
                 </div>
                 <div class="u-cell u-cell--auto calculator__form-cell-field">
                     <label class="form-field">
-                        <VueAutonumeric type="text" class="form-field__input" inputmode="numeric" v-check-empty="'autoNumeric:formatted'"
-                               v-model="bipAmount"
-                               :options="maskPayOptions"
-                               @input.native="onChangeBipAmount"
-                        />
+                        <no-ssr>
+                            <VueAutonumeric type="text" class="form-field__input" inputmode="numeric" v-check-empty="'autoNumeric:formatted'"
+                                            v-model="bipAmount"
+                                            :options="maskPayOptions"
+                                            @input.native="onChangeBipAmount"
+                            />
+                            <input class="form-field__input" type="text" slot="placeholder">
+                        </no-ssr>
                         <span class="form-field__label">Pay</span>
                     </label>
                 </div>

@@ -1,5 +1,7 @@
 <script>
-    import VueAutonumeric from 'vue-autonumeric/src/components/VueAutonumeric';
+    // needed for `autonumeric`
+    import 'core-js/modules/es6.object.freeze';
+    // import VueAutonumeric from 'vue-autonumeric/src/components/VueAutonumeric';
     import fromExponential from 'from-exponential';
     import checkEmpty from '~/assets/v-check-empty';
     import {sellCoin, sellCoinByBip} from "~/assets/utils-math";
@@ -19,14 +21,14 @@
 
     export default {
         components: {
-            VueAutonumeric,
+            VueAutonumeric: () => import('vue-autonumeric/src/components/VueAutonumeric'),
         },
         directives: {
             checkEmpty,
         },
         data() {
-            console.log(this.$store.state.coin.supply);
-            console.log(this.$store.getters.coinTotalValue);
+            // console.log(this.$store.state.coin.supply);
+            // console.log(this.$store.getters.coinTotalValue);
             return {
                 coinAmount: 0,
                 bipAmount: 0,
@@ -86,25 +88,31 @@
             <div class="u-grid u-grid--medium u-grid--vertical-margin calculator__form-grid">
                 <div class="u-cell u-cell--auto calculator__form-cell-field">
                     <label class="form-field">
-                        <VueAutonumeric type="text" class="form-field__input" inputmode="numeric"
-                                        v-check-empty="'autoNumeric:formatted'"
-                                        v-model="coinAmount"
-                                        :options="maskSellOptions"
-                                        @input.native="onChangeCoinAmount"
-                                        @blur.native="onBlurCoinAmount"
-                        />
+                        <no-ssr>
+                            <VueAutonumeric type="text" class="form-field__input" inputmode="numeric"
+                                            v-check-empty="'autoNumeric:formatted'"
+                                            v-model="coinAmount"
+                                            :options="maskSellOptions"
+                                            @input.native="onChangeCoinAmount"
+                                            @blur.native="onBlurCoinAmount"
+                            />
+                            <input class="form-field__input" type="text" slot="placeholder">
+                        </no-ssr>
                         <span class="form-field__label">Sell</span>
                     </label>
                 </div>
                 <div class="u-cell u-cell--auto calculator__form-cell-field">
                     <label class="form-field">
-                        <VueAutonumeric type="text" class="form-field__input" inputmode="numeric"
-                                        v-check-empty="'autoNumeric:formatted'"
-                                        v-model="bipAmount"
-                                        :options="maskGetOptions"
-                                        @input.native="onChangeBipAmount"
-                                        @blur.native="onBlurBipAmount"
-                        />
+                        <no-ssr>
+                            <VueAutonumeric type="text" class="form-field__input" inputmode="numeric"
+                                            v-check-empty="'autoNumeric:formatted'"
+                                            v-model="bipAmount"
+                                            :options="maskGetOptions"
+                                            @input.native="onChangeBipAmount"
+                                            @blur.native="onBlurBipAmount"
+                            />
+                            <input class="form-field__input" type="text" slot="placeholder">
+                        </no-ssr>
                         <span class="form-field__label">Get</span>
                     </label>
                 </div>
