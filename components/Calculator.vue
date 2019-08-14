@@ -51,7 +51,7 @@
                 </div>
                 <div class="calculator-stats__item u-cell u-cell--auto">
                     <dt class="calculator-stats__name">Total Reserve</dt>
-                    <dd class="calculator-stats__value">{{ coin.reserve | pretty }} {{ coin.name }}</dd>
+                    <dd class="calculator-stats__value">{{ coin.reserve | pretty }} BIP</dd>
                 </div>
                 <div class="calculator-stats__item u-cell u-cell--auto">
                     <dt class="calculator-stats__name">Price of 1 {{ coin.name }}</dt>
