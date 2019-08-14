@@ -1,11 +1,11 @@
 <script>
-    import {mapGetters} from 'vuex';
+    import {mapGetters, mapState} from 'vuex';
     import CalculatorBuy from "~/components/CalculatorBuy";
     import CalculatorSell from "~/components/CalculatorSell";
     import CalculatorExchange from "~/components/CalculatorExchange";
     import CalculatorTransactionList from '~/components/CalculatorTransactionList';
     import CalculatorTransactionExchange from '~/components/CalculatorTransactionExchange';
-    import {roundCoin} from "~/assets/utils";
+    import {pretty} from "~/assets/utils";
 
     const ACTION_BUY = 'buy';
     const ACTION_SELL = 'sell';
@@ -22,23 +22,19 @@
             CalculatorTransactionList,
             CalculatorTransactionExchange,
         },
+        filters: {
+            pretty,
+        },
         data() {
             return {
                 activeAction: ACTION_BUY,
             };
         },
         computed: {
-            coin() {
-                return {
-                    ...this.$store.state.coin,
-                    supply: roundCoin(this.$store.state.coin.supply),
-                };
-            },
-            coinPrice() {
-                return roundCoin(this.$store.getters.coinPrice);
-            },
+            ...mapState(['coin']),
+            ...mapGetters(['coinPrice']),
             coinMarketValue() {
-                return roundCoin(this.$store.getters.coinPrice * this.coin.supply);
+                return this.$store.getters.coinPrice * this.coin.supply;
             },
         },
     };
@@ -47,19 +43,23 @@
 <template>
     <div class="calculator">
         <div class="calculator-stats calculator__section">
+            <h2 class="calculator__title calculator-stats__title" v-if="$store.state.coinIsMinted">Current Status of&nbsp;{{ coin.name }}</h2>
             <dl class="calculator-stats__list u-grid u-grid--vertical-margin" v-if="$store.state.coinIsMinted">
-                <h2 class="calculator__title calculator-stats__title u-cell u-cell--auto">Current Status <br class="u-hidden-large-down"> of&nbsp;{{ coin.name }}</h2>
                 <div class="calculator-stats__item u-cell u-cell--auto">
                     <dt class="calculator-stats__name">Total Supply</dt>
-                    <dd class="calculator-stats__value">{{ coin.supply }} {{ coin.name }}</dd>
+                    <dd class="calculator-stats__value">{{ coin.supply | pretty }} {{ coin.name }}</dd>
+                </div>
+                <div class="calculator-stats__item u-cell u-cell--auto">
+                    <dt class="calculator-stats__name">Total Reserve</dt>
+                    <dd class="calculator-stats__value">{{ coin.reserve | pretty }} {{ coin.name }}</dd>
                 </div>
                 <div class="calculator-stats__item u-cell u-cell--auto">
                     <dt class="calculator-stats__name">Price of 1 {{ coin.name }}</dt>
-                    <dd class="calculator-stats__value">{{ coinPrice }} BIP</dd>
+                    <dd class="calculator-stats__value">{{ coinPrice | pretty }} BIP</dd>
                 </div>
                 <div class="calculator-stats__item u-cell u-cell--auto">
                     <dt class="calculator-stats__name">Market Value</dt>
-                    <dd class="calculator-stats__value">{{ coinMarketValue }} BIP</dd>
+                    <dd class="calculator-stats__value">{{ coinMarketValue | pretty }} BIP</dd>
                 </div>
             </dl>
             <div class="calculator-stats__no-coin u-text-center" v-else>Issue your coin to start exchanging, buying, and selling.</div>

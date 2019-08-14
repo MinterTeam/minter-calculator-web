@@ -26,6 +26,35 @@
      */
 
     export default {
+        // first key not handled by webstorm intelliSense
+        ideFix: true,
+        imaskName: {
+            mask: 'aaa',
+            prepare: (str) => str.toUpperCase(),
+        },
+        imaskSupply: {
+            mask: Number,
+            scale: 0,  // digits after point, 0 for integers
+            signed: false,  // disallow negative
+        },
+        maskCrr: {
+            allowDecimalPadding: false,
+            decimalPlaces: 0,
+            digitGroupSeparator: '',
+            emptyInputBehavior: 'null',
+            currencySymbol: '\u2009%',
+            currencySymbolPlacement: 's',
+            minimumValue: '0',
+            maximumValue: MAX_CRR,
+            overrideMinMaxLimits: 'ignore',
+            unformatOnHover: false,
+            wheelStep: 1,
+        },
+        imaskReserve: {
+            mask: Number,
+            scale: 0,  // digits after point, 0 for integers
+            signed: false,  // disallow negative
+        },
         created() {
             setCoinData(this.coinForm, this.$store.state.coinSettings, {undefinedNumber: ''});
             this.$root.$on('initCoinData', () => {
@@ -48,33 +77,6 @@
                     supply: '',
                     crr: '',
                     reserve: '',
-                },
-                imaskNameOptions: {
-                    mask: 'aaa',
-                    prepare: (str) => str.toUpperCase(),
-                },
-                imaskSupplyOptions: {
-                    mask: Number,
-                    scale: 0,  // digits after point, 0 for integers
-                    signed: false,  // disallow negative
-                },
-                maskCrrOptions: {
-                    allowDecimalPadding: false,
-                    decimalPlaces: 0,
-                    digitGroupSeparator: '',
-                    emptyInputBehavior: 'null',
-                    currencySymbol: '\u2009%',
-                    maximumValue: MAX_CRR,
-                    currencySymbolPlacement: 's',
-                    minimumValue: '0',
-                    overrideMinMaxLimits: 'ignore',
-                    unformatOnHover: false,
-                    wheelStep: 1,
-                },
-                imaskReserveOptions: {
-                    mask: Number,
-                    scale: 0,  // digits after point, 0 for integers
-                    signed: false,  // disallow negative
                 },
             };
         },
@@ -153,7 +155,7 @@
                            ref="nameInput"
                            :value="coinForm.name"
                            :disabled="coinIsMinted"
-                           v-imask="imaskNameOptions"
+                           v-imask="$options.imaskName"
                            @accept="onAcceptName"
                     >
                     <span class="form-field__help">Choose a 3-letter ticker</span>
@@ -163,7 +165,7 @@
                            ref="supplyInput"
                            :value="coinForm.supply"
                            :disabled="coinIsMinted"
-                           v-imask="imaskSupplyOptions"
+                           v-imask="$options.imaskSupply"
                            @accept="onAcceptSupply"
                     >
                     <span class="form-field__help">How many coins do you want to start with?</span>
@@ -172,7 +174,7 @@
                     <no-ssr>
                         <VueAutonumeric class="form-field__input" type="text" placeholder="CRR, %" inputmode="numeric"
                                         v-model="coinForm.crr"
-                                        :options="maskCrrOptions"
+                                        :options="$options.maskCrr"
                                         :disabled="coinIsMinted"
                                         @blur.native="onBlurCrr"
                         />
@@ -185,7 +187,7 @@
                            ref="reserveInput"
                            :value="coinForm.reserve"
                            :disabled="coinIsMinted"
-                           v-imask="imaskReserveOptions"
+                           v-imask="$options.imaskReserve"
                            @accept="onAcceptReserve"
                     >
                     <span class="form-field__help">The number of BIPs in the initial emission.</span>

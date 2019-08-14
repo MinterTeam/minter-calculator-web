@@ -20,7 +20,7 @@ module.exports = {
         link: [
             { rel: 'icon', href: '/favicon.png' },
             { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
-            { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Ubuntu:400,700' },
+            // { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Ubuntu:400,700' },
         ],
     },
     css: [
@@ -40,16 +40,17 @@ module.exports = {
     plugins: [
         { src: '~/plugins/click-blur.js', ssr: false },
         { src: '~/plugins/seo-gtag.js', ssr: false },
-        { src: '~/plugins/seo-ym.js', ssr: false },
-        { src: '~/plugins/seo-fb.js', ssr: false },
-        { src: '~/plugins/seo-vk.js', ssr: false },
-        { src: '~/plugins/seo-tw.js', ssr: false },
+        // { src: '~/plugins/seo-ym.js', ssr: false },
+        // { src: '~/plugins/seo-fb.js', ssr: false },
+        // { src: '~/plugins/seo-vk.js', ssr: false },
+        // { src: '~/plugins/seo-tw.js', ssr: false },
     ],
     /*
     ** Modules
     */
     modules: [
-        '@nuxtjs/pwa',
+        //@TODO wait for v3
+        // '@nuxtjs/pwa',
     ],
     /*
     ** PWA manifest

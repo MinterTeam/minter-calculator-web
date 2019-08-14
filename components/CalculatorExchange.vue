@@ -1,10 +1,13 @@
 <script>
     import checkEmpty from '~/assets/v-check-empty';
-    import {roundCoin} from "~/assets/utils";
+    import {pretty} from "~/assets/utils";
 
     export default {
         directives: {
             checkEmpty,
+        },
+        filters: {
+            pretty,
         },
         // data() {
         //     return {
@@ -18,10 +21,10 @@
             cup() {
                 return {
                     name: this.$store.state.cupCoin.name,
-                    supply: roundCoin(this.$store.state.cupCoin.supply),
+                    supply: this.$store.state.cupCoin.supply,
                     crr: this.$store.state.cupCoin.crr * 100,
-                    reserve: roundCoin(this.$store.state.cupCoin.reserve),
-                    price: roundCoin(this.$store.getters.cupPriceInCoins),
+                    reserve: this.$store.state.cupCoin.reserve,
+                    price: this.$store.getters.cupPriceInCoins,
                 };
             },
             canExchange() {
@@ -54,7 +57,7 @@
                 <div class="u-cell u-cell--1-2 u-cell--medium--2-10">
                     <label class="form-field">
                         <input type="text" class="form-field__input" disabled
-                               :value="cup.supply"
+                               :value="cup.supply | pretty"
                                v-check-empty
                         >
                         <span class="form-field__label">Supply, CUP</span>
@@ -72,7 +75,7 @@
                 <div class="u-cell u-cell--1-2 u-cell--medium--2-10">
                     <label class="form-field">
                         <input type="text" class="form-field__input" disabled
-                               :value="cup.reserve"
+                               :value="cup.reserve | pretty"
                                v-check-empty
                         >
                         <span class="form-field__label">Reserve, BIP</span>
@@ -81,7 +84,7 @@
                 <div class="u-cell u-cell--medium--2-10">
                     <label class="form-field">
                         <input type="text" class="form-field__input" disabled
-                               :value="cup.price"
+                               :value="cup.price | pretty"
                                v-check-empty
                         >
                         <span class="form-field__label">Price of 1 CUP</span>
@@ -94,7 +97,7 @@
                         Now, imagine if someone was willing to&nbsp;pay for&nbsp;a&nbsp;CUP of&nbsp;coffee with your&nbsp;coin.
                     </p>
                     <div class="u-cell u-cell--large--1-2">
-                        <button class="calculator-exchange__submit button button--main" v-if="canExchange">Exchange {{ cup.price }} {{ coin.name }} for&nbsp;1&nbsp;CUP</button>
+                        <button class="calculator-exchange__submit button button--main" v-if="canExchange">Exchange {{ cup.price | pretty }} {{ coin.name }} for&nbsp;1&nbsp;CUP</button>
                         <strong v-else>Not enough {{ coin.name }} to exchange</strong>
                     </div>
                 </div>

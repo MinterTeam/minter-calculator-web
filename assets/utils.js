@@ -1,54 +1,25 @@
+import decode from 'entity-decode';
+import prettyNum, {PRECISION_SETTING, ROUNDING_MODE} from 'pretty-num';
+// import stripZeros from 'pretty-num/src/strip-zeros';
+// import fromExponential from 'from-exponential';
+
 /**
- * @param {number} num
- * @param {number} [precision=3]
+ * @param {string|number} value
+ * @param {ROUNDING_MODE} [roundingMode]
  * @return {string}
  */
-export function roundCoin(num, precision = 3){
-    let data = String(num).split(/[eE]/);
-    if (data.length === 1) {
-        return reducePrecision(num).toString();
-    }
-
-    let zeros = '';
-    let sign = num < 0 ? '-' : '';
-    let digits = data[0].replace('.', '');
-    let mag = Number(data[1]) + 1;
-
-    if (mag < 0) {
-        zeros = sign + '0.';
-        while (mag++) {
-            zeros += '0';
-        }
-        return zeros + digits.replace(/^-/, '').substr(0, precision);
+export function pretty(value, roundingMode) {
+    const PRECISION = 2;
+    if (value >= 1 || value <= -1 || Number(value) === 0) {
+        return decode(prettyNum(value, {precision: PRECISION, precisionSetting: PRECISION_SETTING.FIXED, roundingMode, thousandsSeparator: '&#x202F;'}));
     } else {
-        mag -= digits.length;
-        while (mag--) {
-            zeros += '0';
+        value = decode(prettyNum(value, {precision: PRECISION, precisionSetting: PRECISION_SETTING.REDUCE_SIGNIFICANT, roundingMode, thousandsSeparator: '&#x202F;'}));
+        value = value.substr(0, 10);
+        if (value === '0.00000000') {
+            return '0.00';
         }
-        return digits + zeros;
+        return value;
     }
-}
-
-
-/**
- * @param {number} num
- * @return {number}
- */
-function reducePrecision(num) {
-    if (Math.abs(num) < Math.pow(0.1, 8)) {
-        return num;
-    } else if (Math.abs(num) < Math.pow(0.1, 5)) {
-        return round(num, 8);
-    } else if (Math.abs(num) < Math.pow(0.1, 3)) {
-        return round(num, 6);
-    } else {
-        return round(num, 4);
-    }
-}
-
-function round(num, power) {
-    let tenPower = Math.pow(10, power);
-    return Math.round(num * tenPower) / tenPower;
 }
 
 /**
