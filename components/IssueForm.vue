@@ -161,7 +161,7 @@
                     <span class="form-field__help">Choose a 3-letter ticker</span>
                 </label>
                 <label class="form-field form-row" :class="{'is-disabled': coinIsMinted}">
-                    <input class="form-field__input" type="text" placeholder="Initial Supply"
+                    <input class="form-field__input" type="text" placeholder="Initial Supply" inputmode="numeric"
                            ref="supplyInput"
                            :value="coinForm.supply"
                            :disabled="coinIsMinted"
@@ -183,7 +183,7 @@
                     <span class="form-field__help">Constant Reserve Ratio is the percentage of BIPs in the value of total supply.</span>
                 </label>
                 <label class="form-field form-row" :class="{'is-disabled': coinIsMinted}">
-                    <input class="form-field__input" type="text" placeholder="Reserve"
+                    <input class="form-field__input" type="text" placeholder="Reserve" inputmode="numeric"
                            ref="reserveInput"
                            :value="coinForm.reserve"
                            :disabled="coinIsMinted"
