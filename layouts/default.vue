@@ -1,5 +1,5 @@
 <script>
-    import footerLinksData from 'minter-footer-links';
+    import footerLinksData from '@minterteam/footer-links';
 
     export default {
         footerLinkList: footerLinksData,
