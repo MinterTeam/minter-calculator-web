@@ -21,7 +21,7 @@
     "from-exponential": "^1.0.0",
     "imask": "^5.2.1",
     "@minterteam/footer-links": "^3.0.0",
-    "nuxt": "^2.10.1",
+    "nuxt": "^3.4.3",
     "pretty-num": "^0.3.0",
     "vue-autonumeric": "^1.2.6",
     "vue-imask": "^5.2.1",
